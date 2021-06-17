@@ -1,10 +1,10 @@
-package go_utils_test
+package profileutils_test
 
 import (
 	"reflect"
 	"testing"
 
-	base "github.com/savannahghi/go_utils"
+	base "github.com/savannahghi/profileutils"
 )
 
 func TestUserProfile_IsEntity(t *testing.T) {

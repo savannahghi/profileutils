@@ -1,4 +1,4 @@
-module github.com/savannahghi/go_utils
+module github.com/savannahghi/profileutils
 
 go 1.16
 
