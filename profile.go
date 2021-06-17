@@ -1,4 +1,4 @@
-package go_utils
+package profileutils
 
 import (
 	"context"

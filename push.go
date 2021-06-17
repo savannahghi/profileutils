@@ -1,4 +1,4 @@
-package go_utils
+package profileutils
 
 // FirebaseWebpushConfigInput is used to set the Firebase web config
 type FirebaseWebpushConfigInput struct {
