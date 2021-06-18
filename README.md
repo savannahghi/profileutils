@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.com/savannahghi/profileutils.svg?branch=main)](https://travis-ci.com/savannahghi/profileutils)
+[![Maintained](https://img.shields.io/badge/Maintained-Actively-informational.svg?style=for-the-badge)](https://shields.io/)
+
 # Profile Utils
 
 `profileutils` is a utils package that contains common utilities used by other services that interact with profile
