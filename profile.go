@@ -6,6 +6,8 @@ import (
 	"io"
 	"strconv"
 	"time"
+
+	"github.com/savannahghi/enumutils"
 )
 
 // PermissionType defines the type of a permission
@@ -265,10 +267,10 @@ type Date struct {
 
 // BioData structure of bio data information for a user
 type BioData struct {
-	FirstName   *string `json:"firstName" firestore:"firstName"`
-	LastName    *string `json:"lastName" firestore:"lastName"`
-	DateOfBirth *Date   `json:"dateOfBirth" firestore:"dateOfBirth"`
-	Gender      Gender  `json:"gender" firestore:"gender"`
+	FirstName   *string          `json:"firstName" firestore:"firstName"`
+	LastName    *string          `json:"lastName" firestore:"lastName"`
+	DateOfBirth *Date            `json:"dateOfBirth" firestore:"dateOfBirth"`
+	Gender      enumutils.Gender `json:"gender" firestore:"gender"`
 }
 
 // VerifiedIdentifier metadata of how the user has logged in to bewell
@@ -294,7 +296,7 @@ type UserProfileRepository interface {
 	UpdatePushTokens(ctx context.Context, id string, pushToken []string) error
 	UpdatePermissions(ctx context.Context, id string, perms []PermissionType) error
 	UpdateBioData(ctx context.Context, id string, data BioData) error
-	UpdateAddresses(ctx context.Context, id string, address Address, addressType AddressType) error
+	UpdateAddresses(ctx context.Context, id string, address Address, addressType enumutils.AddressType) error
 }
 
 // UserProfile serializes the profile of the logged in user.

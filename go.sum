@@ -275,6 +275,8 @@ github.com/prometheus/client_model v0.0.0-20190812154241-14fe0d1b01d4/go.mod h1:
 github.com/rogpeppe/go-internal v1.3.0/go.mod h1:M8bDsm7K2OlrFYOpmOWEs/qY81heoFRclV5y23lUDJ4=
 github.com/russross/blackfriday v1.5.2/go.mod h1:JO/DiYxRf+HjHt06OyowR9PTA263kcR/rfWxYHBV53g=
 github.com/ryanuber/columnize v2.1.0+incompatible/go.mod h1:sm1tb6uqfes/u+d4ooFouqFdy9/2g9QGwK3SQygK0Ts=
+github.com/savannahghi/enumutils v0.0.0-20210622094023-d347744e1825 h1:fsQJI6leJba47gc06wrLyLlCYJzvNaVLubCYR7Ve7Uk=
+github.com/savannahghi/enumutils v0.0.0-20210622094023-d347744e1825/go.mod h1:DDdjQBO1qyf5BxLzhTs1uN91drCIHH2Lvr8aLdJwu/o=
 github.com/savannahghi/firebasetools v0.0.2 h1:sapaBH8xYCmDhXyDoIvdlp2Wfi27Aq9q5IqlxNgmzoE=
 github.com/savannahghi/firebasetools v0.0.2/go.mod h1:IRjVH+Zbouicrzhomenei+vK7VUgwBDxykwSwFadvEU=
 github.com/savannahghi/server_utils v0.0.1 h1:q6SL4BRvkpYJujXvWwCl4vU1U+VTzKRGfNXnl0H6tfw=
