@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/savannahghi/enumutils"
+	"github.com/savannahghi/scalarutils"
 )
 
 // PermissionType defines the type of a permission
@@ -258,19 +259,12 @@ type Cover struct {
 // IsEntity marks this struct as a GraphQL entity
 func (c Cover) IsEntity() {}
 
-// Date is a custom date type that maintains only date level precision
-type Date struct {
-	Year  int
-	Month int
-	Day   int
-}
-
 // BioData structure of bio data information for a user
 type BioData struct {
-	FirstName   *string          `json:"firstName" firestore:"firstName"`
-	LastName    *string          `json:"lastName" firestore:"lastName"`
-	DateOfBirth *Date            `json:"dateOfBirth" firestore:"dateOfBirth"`
-	Gender      enumutils.Gender `json:"gender" firestore:"gender"`
+	FirstName   *string           `json:"firstName" firestore:"firstName"`
+	LastName    *string           `json:"lastName" firestore:"lastName"`
+	DateOfBirth *scalarutils.Date `json:"dateOfBirth" firestore:"dateOfBirth"`
+	Gender      enumutils.Gender  `json:"gender" firestore:"gender"`
 }
 
 // VerifiedIdentifier metadata of how the user has logged in to bewell
