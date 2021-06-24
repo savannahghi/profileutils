@@ -277,12 +277,12 @@ github.com/russross/blackfriday v1.5.2/go.mod h1:JO/DiYxRf+HjHt06OyowR9PTA263kcR
 github.com/ryanuber/columnize v2.1.0+incompatible/go.mod h1:sm1tb6uqfes/u+d4ooFouqFdy9/2g9QGwK3SQygK0Ts=
 github.com/savannahghi/enumutils v0.0.0-20210622094023-d347744e1825 h1:fsQJI6leJba47gc06wrLyLlCYJzvNaVLubCYR7Ve7Uk=
 github.com/savannahghi/enumutils v0.0.0-20210622094023-d347744e1825/go.mod h1:DDdjQBO1qyf5BxLzhTs1uN91drCIHH2Lvr8aLdJwu/o=
-github.com/savannahghi/firebasetools v0.0.3 h1:UIObLz/6xpcyXO2ToVbqteXY9I4WUs9zI0kP3hL1VbI=
-github.com/savannahghi/firebasetools v0.0.3/go.mod h1:IRjVH+Zbouicrzhomenei+vK7VUgwBDxykwSwFadvEU=
+github.com/savannahghi/firebasetools v0.0.5 h1:citJhhPThsLBGTfCtD0SKfo3Xi4cJcsyfbc9G6zevH8=
+github.com/savannahghi/firebasetools v0.0.5/go.mod h1:obAxyBfPaGTx/g86LF19gSmmEh5x+Tbnziatk514mUQ=
 github.com/savannahghi/scalarutils v0.0.0-20210622091443-bad5089abdad h1:v3QPK6KIGkOozqZ/DqMwbmF1LcqJO6k25arenLls9SY=
 github.com/savannahghi/scalarutils v0.0.0-20210622091443-bad5089abdad/go.mod h1:Z+Dl3wc3vy5zKvthctHAtYzol1p8w27zEVRfOYueoks=
-github.com/savannahghi/server_utils v0.0.1 h1:q6SL4BRvkpYJujXvWwCl4vU1U+VTzKRGfNXnl0H6tfw=
-github.com/savannahghi/server_utils v0.0.1/go.mod h1:Tldm4Op4ARxk8xaP3BA0V52XVZEJenkq0ck4FCdEp+I=
+github.com/savannahghi/serverutils v0.0.2 h1:ZVRRdyRH47qlqZCiZ3FKOd8W4ufhtvHQLLZxAQZonqk=
+github.com/savannahghi/serverutils v0.0.2/go.mod h1:sLX0El0i0DKN/9cUkB8xqm5cVMP79qCZvK60EzB7Pa4=
 github.com/schollz/closestmatch v2.1.0+incompatible/go.mod h1:RtP1ddjLong6gTkbtmuhtR2uUrrJOpYzYRvbcPAid+g=
 github.com/sergi/go-diff v1.0.0/go.mod h1:0CfEIISq7TuYL3j771MWULgwwjU+GofnZX9QAmXWZgo=
 github.com/shopspring/decimal v1.2.0 h1:abSATXmQEYyShuxI4/vyW3tV1MrKAJzCZ/0zLUXYbsQ=
