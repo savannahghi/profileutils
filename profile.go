@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/savannahghi/enumutils"
+	"github.com/savannahghi/feedlib"
 	"github.com/savannahghi/scalarutils"
 )
 
@@ -291,6 +292,8 @@ type UserProfileRepository interface {
 	UpdatePermissions(ctx context.Context, id string, perms []PermissionType) error
 	UpdateBioData(ctx context.Context, id string, data BioData) error
 	UpdateAddresses(ctx context.Context, id string, address Address, addressType enumutils.AddressType) error
+	UpdateAppVersion(ctx context.Context, id string, appVersion string, flavour feedlib.Flavour) error
+	UpdateRole(ctx context.Context, id string, role RoleType) error
 }
 
 // UserProfile serializes the profile of the logged in user.
@@ -360,6 +363,25 @@ type UserProfile struct {
 
 	// Timestamp indicating when the user was created
 	Created *time.Time `json:"created,omitempty" firestore:"created"`
+
+	// this is the version of the app that the user is currently using : CONSUMER
+	ConsumerAppVersion *string `json:"consumerAppVersion,omitempty" firestore:"consumerAppVersion"`
+
+	// this is the version of the app that the user is currently using : PRO
+	PROAppVersion *string `json:"proAppVersion,omitempty" firestore:"proAppVersion"`
+}
+
+// UserInfo is a collection of standard profile information for a user.
+type UserInfo struct {
+	DisplayName string `json:"displayName,omitempty"`
+	Email       string `json:"email,omitempty"`
+	PhoneNumber string `json:"phoneNumber,omitempty"`
+	PhotoURL    string `json:"photoUrl,omitempty"`
+	// In the ProviderUserInfo[] ProviderID can be a short domain name (e.g. google.com),
+	// or the identity of an OpenID identity provider.
+	// In UserRecord.UserInfo it will return the constant string "firebase".
+	ProviderID string `json:"providerId,omitempty"`
+	UID        string `json:"rawId,omitempty"`
 }
 
 // IsEntity marks a profile as a GraphQL entity

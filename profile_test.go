@@ -4,7 +4,7 @@ import (
 	"reflect"
 	"testing"
 
-	base "github.com/savannahghi/profileutils"
+	"github.com/savannahghi/profileutils"
 )
 
 func TestUserProfile_IsEntity(t *testing.T) {
@@ -17,7 +17,7 @@ func TestUserProfile_IsEntity(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			u := base.UserProfile{}
+			u := profileutils.UserProfile{}
 			u.IsEntity()
 		})
 	}
@@ -40,49 +40,49 @@ func TestCover_IsEntity(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			c := base.Cover{}
+			c := profileutils.Cover{}
 			c.IsEntity()
 		})
 	}
 }
 
 func TestRoleType_Permissions(t *testing.T) {
-	employeePermissions := []base.PermissionType{
-		base.PermissionTypeCreateConsumer,
-		base.PermissionTypeUpdateConsumer,
-		base.PermissionTypeDeleteConsumer,
-		base.PermissionTypeCreatePatient,
-		base.PermissionTypeUpdatePatient,
-		base.PermissionTypeDeletePatient,
-		base.PermissionTypeIdentifyPatient,
+	employeePermissions := []profileutils.PermissionType{
+		profileutils.PermissionTypeCreateConsumer,
+		profileutils.PermissionTypeUpdateConsumer,
+		profileutils.PermissionTypeDeleteConsumer,
+		profileutils.PermissionTypeCreatePatient,
+		profileutils.PermissionTypeUpdatePatient,
+		profileutils.PermissionTypeDeletePatient,
+		profileutils.PermissionTypeIdentifyPatient,
 	}
-	agentPermissions := []base.PermissionType{
-		base.PermissionTypeCreatePartner,
-		base.PermissionTypeUpdatePartner,
-		base.PermissionTypeCreateConsumer,
-		base.PermissionTypeUpdateConsumer,
+	agentPermissions := []profileutils.PermissionType{
+		profileutils.PermissionTypeCreatePartner,
+		profileutils.PermissionTypeUpdatePartner,
+		profileutils.PermissionTypeCreateConsumer,
+		profileutils.PermissionTypeUpdateConsumer,
 	}
 
 	tests := []struct {
 		name    string
-		r       base.RoleType
-		want    []base.PermissionType
+		r       profileutils.RoleType
+		want    []profileutils.PermissionType
 		wantErr bool
 	}{
 		{
 			name: "valid role type permissions",
-			r:    base.RoleTypeEmployee,
+			r:    profileutils.RoleTypeEmployee,
 			want: employeePermissions,
 		},
 		{
 			name: "valid role type permissions",
-			r:    base.RoleTypeAgent,
+			r:    profileutils.RoleTypeAgent,
 			want: agentPermissions,
 		},
 		{
 			name: "invalid role type permissions",
 			r:    "IMPOSTER",
-			want: []base.PermissionType{},
+			want: []profileutils.PermissionType{},
 		},
 	}
 	for _, tt := range tests {
@@ -98,17 +98,17 @@ func TestRoleType_Permissions(t *testing.T) {
 func TestRoleType_IsValid(t *testing.T) {
 	tests := []struct {
 		name string
-		r    base.RoleType
+		r    profileutils.RoleType
 		want bool
 	}{
 		{
 			name: "valid employee role type",
-			r:    base.RoleTypeEmployee,
+			r:    profileutils.RoleTypeEmployee,
 			want: true,
 		},
 		{
 			name: "valid agent role type",
-			r:    base.RoleTypeAgent,
+			r:    profileutils.RoleTypeAgent,
 			want: true,
 		},
 		{
