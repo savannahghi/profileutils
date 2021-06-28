@@ -398,33 +398,6 @@ type UserCommunicationsSetting struct {
 	AllowEmail    bool   `json:"allowEmail" firestore:"allowEmail"`
 }
 
-// LinkType determines how a linked asset is handled on the feed
-type LinkType string
-
-// Link holds references to media that is part of the feed.
-// The URL should embed authentication details.
-// The treatment will depend on the specified asset type.
-type Link struct {
-	// A unique identifier for each feed item
-	ID string `json:"id" firestore:"id"`
-
-	// A URL at which the video can be accessed.
-	// For a private video, the URL should include authentication information.
-	URL string `json:"url" firestore:"url"`
-
-	// LinkType of link
-	LinkType LinkType `json:"linkType" firestore:"linkType"`
-
-	// name or title of the linked item
-	Title string `json:"title" firestore:"title"`
-
-	// details about the linked item
-	Description string `json:"description" firestore:"description"`
-
-	// A URL to a PNG image that represents a thumbnail for the item
-	Thumbnail string `json:"thumbnail" firestore:"thumbnail"`
-}
-
 //NavAction is a Navigation Action that a user can perform on the app
 type NavAction struct {
 	//  The name of the action
@@ -434,7 +407,7 @@ type NavAction struct {
 	OnTapRoute string `json:"onTapRoute"`
 
 	// A link to a PNG image that would serve as an avatar
-	Icon Link `json:"icon"`
+	Icon feedlib.Link `json:"icon"`
 
 	// Whether the user has marked the action as a favourite
 	Favourite bool `json:"favourite"`
