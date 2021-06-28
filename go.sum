@@ -277,8 +277,8 @@ github.com/russross/blackfriday v1.5.2/go.mod h1:JO/DiYxRf+HjHt06OyowR9PTA263kcR
 github.com/ryanuber/columnize v2.1.0+incompatible/go.mod h1:sm1tb6uqfes/u+d4ooFouqFdy9/2g9QGwK3SQygK0Ts=
 github.com/savannahghi/enumutils v0.0.0-20210622094023-d347744e1825 h1:fsQJI6leJba47gc06wrLyLlCYJzvNaVLubCYR7Ve7Uk=
 github.com/savannahghi/enumutils v0.0.0-20210622094023-d347744e1825/go.mod h1:DDdjQBO1qyf5BxLzhTs1uN91drCIHH2Lvr8aLdJwu/o=
-github.com/savannahghi/feedlib v0.0.0-20210615151500-6850dc2fea8f h1:QkW66MJqaD/vCGOl3TbzBM7PQ2gVpiluyOUbBg/Kzd8=
-github.com/savannahghi/feedlib v0.0.0-20210615151500-6850dc2fea8f/go.mod h1:P6YHmWsa/TK/qTb2U1ryjuASotTQmbarArB0LYLjMo4=
+github.com/savannahghi/feedlib v0.0.0-20210628122532-ef88e353d4d6 h1:KKb7B/X+k5VHEfka8sM8x9p7s9HPbb9C+lMmEaByGVE=
+github.com/savannahghi/feedlib v0.0.0-20210628122532-ef88e353d4d6/go.mod h1:P6YHmWsa/TK/qTb2U1ryjuASotTQmbarArB0LYLjMo4=
 github.com/savannahghi/firebasetools v0.0.5 h1:citJhhPThsLBGTfCtD0SKfo3Xi4cJcsyfbc9G6zevH8=
 github.com/savannahghi/firebasetools v0.0.5/go.mod h1:obAxyBfPaGTx/g86LF19gSmmEh5x+Tbnziatk514mUQ=
 github.com/savannahghi/scalarutils v0.0.0-20210622091443-bad5089abdad h1:v3QPK6KIGkOozqZ/DqMwbmF1LcqJO6k25arenLls9SY=
