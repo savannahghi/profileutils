@@ -48,6 +48,9 @@ func TestCover_IsEntity(t *testing.T) {
 
 func TestRoleType_Permissions(t *testing.T) {
 	employeePermissions := []profileutils.PermissionType{
+		profileutils.PermissionTypeRegisterAgent,
+		profileutils.PermissionTypeSuspendAgent,
+		profileutils.PermissionTypeUnsuspendAgent,
 		profileutils.PermissionTypeCreateConsumer,
 		profileutils.PermissionTypeUpdateConsumer,
 		profileutils.PermissionTypeDeleteConsumer,
@@ -121,6 +124,41 @@ func TestRoleType_IsValid(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.r.IsValid(); got != tt.want {
 				t.Errorf("RoleType.IsValid() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestUserProfile_HasPermission(t *testing.T) {
+	user := profileutils.UserProfile{
+		Permissions: profileutils.DefaultEmployeePermissions,
+	}
+	user2 := profileutils.UserProfile{
+		Permissions: profileutils.DefaultAgentPermissions,
+	}
+	tests := []struct {
+		name string
+		user profileutils.UserProfile
+		perm profileutils.PermissionType
+		want bool
+	}{
+		{
+			name: "valid: user has permission",
+			user: user,
+			perm: profileutils.PermissionTypeRegisterAgent,
+			want: true,
+		},
+		{
+			name: "valid: user do no have permission",
+			user: user2,
+			perm: profileutils.PermissionTypeRegisterAgent,
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.user.HasPermission(tt.perm); got != tt.want {
+				t.Errorf("UserProfile.HasPermission() = %v, want %v", got, tt.want)
 			}
 		})
 	}
