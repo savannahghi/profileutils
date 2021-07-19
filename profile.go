@@ -9,6 +9,7 @@ import (
 
 	"github.com/savannahghi/enumutils"
 	"github.com/savannahghi/feedlib"
+	"github.com/savannahghi/firebasetools"
 	"github.com/savannahghi/scalarutils"
 )
 
@@ -586,3 +587,30 @@ var AuthorizedEmails = []string{"apa-dev@healthcloud.co.ke", "apa-prod@healthclo
 // AuthorizedPhones represent phonenumbers to check whether they have access to certain resources
 // TODO: make these Env Vars
 var AuthorizedPhones = []string{"+254700000000"}
+
+// GetLoggedInUser retrieves logged in user information
+func GetLoggedInUser(ctx context.Context) (*UserInfo, error) {
+	authToken, err := firebasetools.GetUserTokenFromContext(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("user auth token not found in context: %w", err)
+	}
+
+	authClient, err := firebasetools.GetFirebaseAuthClient(ctx)
+	if err != nil {
+		return nil, fmt.Errorf("unable to get or create Firebase client: %w", err)
+	}
+
+	user, err := authClient.GetUser(ctx, authToken.UID)
+	if err != nil {
+
+		return nil, fmt.Errorf("unable to get user: %w", err)
+	}
+	return &UserInfo{
+		UID:         user.UID,
+		Email:       user.Email,
+		PhoneNumber: user.PhoneNumber,
+		DisplayName: user.DisplayName,
+		ProviderID:  user.ProviderID,
+		PhotoURL:    user.PhotoURL,
+	}, nil
+}
