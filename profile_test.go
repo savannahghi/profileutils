@@ -1,7 +1,6 @@
 package profileutils_test
 
 import (
-	"reflect"
 	"testing"
 
 	"github.com/savannahghi/profileutils"
@@ -46,119 +45,31 @@ func TestCover_IsEntity(t *testing.T) {
 	}
 }
 
-func TestRoleType_Permissions(t *testing.T) {
-	employeePermissions := []profileutils.PermissionType{
-		profileutils.PermissionTypeRegisterAgent,
-		profileutils.PermissionTypeSuspendAgent,
-		profileutils.PermissionTypeUnsuspendAgent,
-		profileutils.PermissionTypeCreateConsumer,
-		profileutils.PermissionTypeUpdateConsumer,
-		profileutils.PermissionTypeDeleteConsumer,
-		profileutils.PermissionTypeCreatePatient,
-		profileutils.PermissionTypeUpdatePatient,
-		profileutils.PermissionTypeDeletePatient,
-		profileutils.PermissionTypeIdentifyPatient,
-	}
-	agentPermissions := []profileutils.PermissionType{
-		profileutils.PermissionTypeCreatePartner,
-		profileutils.PermissionTypeUpdatePartner,
-		profileutils.PermissionTypeCreateConsumer,
-		profileutils.PermissionTypeUpdateConsumer,
-	}
-
-	tests := []struct {
-		name    string
-		r       profileutils.RoleType
-		want    []profileutils.PermissionType
-		wantErr bool
-	}{
-		{
-			name: "valid role type permissions",
-			r:    profileutils.RoleTypeEmployee,
-			want: employeePermissions,
-		},
-		{
-			name: "valid role type permissions",
-			r:    profileutils.RoleTypeAgent,
-			want: agentPermissions,
-		},
-		{
-			name: "invalid role type permissions",
-			r:    "IMPOSTER",
-			want: []profileutils.PermissionType{},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got := tt.r.Permissions()
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("RoleType.Permissions() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestRoleType_IsValid(t *testing.T) {
-	tests := []struct {
-		name string
-		r    profileutils.RoleType
-		want bool
-	}{
-		{
-			name: "valid employee role type",
-			r:    profileutils.RoleTypeEmployee,
-			want: true,
-		},
-		{
-			name: "valid agent role type",
-			r:    profileutils.RoleTypeAgent,
-			want: true,
-		},
-		{
-			name: "invalid role type",
-			r:    "IMPOSTER",
-			want: false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.r.IsValid(); got != tt.want {
-				t.Errorf("RoleType.IsValid() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestUserProfile_HasPermission(t *testing.T) {
-	user := profileutils.UserProfile{
-		Permissions: profileutils.DefaultEmployeePermissions,
-	}
-	user2 := profileutils.UserProfile{
-		Permissions: profileutils.DefaultAgentPermissions,
+func TestUserProfile_HasFavorite(t *testing.T) {
+	type args struct {
+		title string
+		user  profileutils.UserProfile
 	}
 	tests := []struct {
 		name string
-		user profileutils.UserProfile
-		perm profileutils.PermissionType
+		args args
 		want bool
 	}{
 		{
-			name: "valid: user has permission",
-			user: user,
-			perm: profileutils.PermissionTypeRegisterAgent,
+			name: "valid:user_has_favorite",
+			args: args{
+				title: "Home",
+				user: profileutils.UserProfile{
+					FavNavActions: []string{"Home"},
+				},
+			},
 			want: true,
-		},
-		{
-			name: "valid: user do no have permission",
-			user: user2,
-			perm: profileutils.PermissionTypeRegisterAgent,
-			want: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.user.HasPermission(tt.perm); got != tt.want {
-				t.Errorf("UserProfile.HasPermission() = %v, want %v", got, tt.want)
+			if got := tt.args.user.HasFavorite(tt.args.title); got != tt.want {
+				t.Errorf("UserProfile.HasFavorite() = %v, want %v", got, tt.want)
 			}
 		})
 	}
