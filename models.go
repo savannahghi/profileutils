@@ -6,6 +6,55 @@ import (
 	"github.com/savannahghi/firebasetools"
 )
 
+// PermissionGroup used to group permissions that have related resources
+type PermissionGroup string
+
+// PermissionType is the string formart of "resource.action" for roles
+type Permission struct {
+	Group PermissionGroup `json:"group,omitempty"`
+	// operation is the resource and action allowed respectively e.g "user.create"
+	Operation   string `json:"action,omitempty"`
+	Allowed     bool   `json:"allowed,omitempty"`
+	Description string `json:"description,omitempty"`
+}
+
+// ActionGroup is the codes for grouping related navigationactions
+type ActionGoup string
+
+//NavigationAction is a Navigation Action that a user can perform on the app
+type NavigationAction struct {
+	// How Navaction and nested children are related
+	Group ActionGoup `json:"group,omitempty"`
+
+	//  The name of the action
+	Title string `json:"title,omitempty"`
+
+	// How the action is handled when tapped
+	OnTapRoute string `json:"onTapRoute,omitempty"`
+
+	// A link to a PNG image that would serve as an avatar
+	Icon string `json:"icon,omitempty"`
+
+	// Whether the user has marked the action as a favourite
+	Favourite bool `json:"favourite,omitempty"`
+
+	IsParent bool `json:"isParent,omitempty"`
+
+	IsHighPriority bool
+
+	// Sub menus in a navigation action
+	Nested []interface{} `json:"nested,omitempty"`
+}
+
+//NavigationActions are Role based Navigation Actions for a User
+type NavigationActions struct {
+	// The primary actions the user can perform
+	Primary []NavigationAction `json:"primary"`
+
+	// The secondary action the user can perform
+	Secondary []NavigationAction `json:"secondary"`
+}
+
 // Upload represents a file uploaded to cloud storage
 type Upload struct {
 	ID          string    `json:"id" firestore:"id"`
