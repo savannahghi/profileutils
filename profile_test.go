@@ -1,6 +1,7 @@
 package profileutils_test
 
 import (
+	"reflect"
 	"testing"
 
 	"github.com/savannahghi/profileutils"
@@ -70,6 +71,74 @@ func TestUserProfile_HasFavorite(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := tt.args.user.HasFavorite(tt.args.title); got != tt.want {
 				t.Errorf("UserProfile.HasFavorite() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestRole_HasPermission(t *testing.T) {
+	type args struct {
+		role       profileutils.Role
+		permission string
+	}
+	tests := []struct {
+		name string
+		args args
+		want bool
+	}{
+		{
+			name: "happy case",
+			args: args{
+				role: profileutils.Role{
+					AllowedPermissions: []string{"agent.create"},
+				},
+				permission: "agent.create",
+			},
+			want: true,
+		},
+		{
+			name: "sad case",
+			args: args{
+				role: profileutils.Role{
+					AllowedPermissions: []string{"agent.create"},
+				},
+				permission: "agent.edit",
+			},
+			want: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.args.role.HasPermission(tt.args.permission); got != tt.want {
+				t.Errorf("Role.HasPermission() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func TestRole_GetPermissions(t *testing.T) {
+
+	tests := []struct {
+		name string
+		role profileutils.Role
+		want []profileutils.Permission
+	}{
+		{
+			name: "happy case",
+			role: profileutils.Role{
+				AllowedPermissions: []string{"agent.register", "agent.view", "patient.create"},
+			},
+			want: []profileutils.Permission{
+				profileutils.CanRegisterAgent,
+				profileutils.CanViewAgent,
+				profileutils.CanCreatePatient,
+			},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.role.GetPermissions(); !reflect.DeepEqual(got, tt.want) {
+				t.Errorf("Role.GetPermissions() = %v, want %v", got, tt.want)
 			}
 		})
 	}

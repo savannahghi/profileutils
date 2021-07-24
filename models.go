@@ -40,7 +40,10 @@ type NavigationAction struct {
 
 	IsParent bool `json:"isParent,omitempty"`
 
-	IsHighPriority bool
+	IsHighPriority bool `json:"isHighPriority,omitempty"`
+
+	// the permission required to acces this navigation action
+	RequiredPermission *Permission `json:"requires,omitempty"`
 
 	// Sub menus in a navigation action
 	Nested []interface{} `json:"nested,omitempty"`

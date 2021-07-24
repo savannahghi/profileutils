@@ -187,6 +187,32 @@ type Role struct {
 	Name               string   `json:"name,omitempty"`
 	AllowedPermissions []string `json:"permission,omitempty"`
 	Description        string   `json:"description,omitempty"`
+
+	// this is the profile ID of the logged in user creating this role.
+	CreatedByID *string    `json:"cratedByID,omitempty" firestore:"createdByID"`
+	Created     *time.Time `json:"created,omitempty" firestore:"created"`
+}
+
+// HasPermission checks if a role a this permission in its allowed permissions
+func (r Role) HasPermission(permission string) bool {
+	for _, v := range r.AllowedPermissions {
+		if v == permission {
+			return true
+		}
+	}
+	return false
+}
+
+// GetPermissions return list of Permission in allowed role permissions
+func (r Role) GetPermissions() []Permission {
+	perms := []Permission{}
+	for _, v := range r.AllowedPermissions {
+		perm := GetPermissionByOperation(v)
+		if perm != nil {
+			perms = append(perms, *perm)
+		}
+	}
+	return perms
 }
 
 // UserProfile serializes the profile of the logged in user.
@@ -283,10 +309,20 @@ type UserInfo struct {
 // IsEntity marks a profile as a GraphQL entity
 func (u UserProfile) IsEntity() {}
 
-// HasFavorite checks if user has specific permission
+// HasFavorite checks if user has marked permission as favorite specific permission
 func (u UserProfile) HasFavorite(title string) bool {
 	for _, favorite := range u.FavNavActions {
 		if favorite == title {
+			return true
+		}
+	}
+	return false
+}
+
+// HasRole checks if user has role with given role id
+func (u UserProfile) HasRole(roleId string) bool {
+	for _, role := range u.Roles {
+		if role == roleId {
 			return true
 		}
 	}
