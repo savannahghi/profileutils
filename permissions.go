@@ -1,30 +1,325 @@
 package profileutils
 
-var AllPermisions []Permission = []Permission{
-	{Group: PermissionGroupAdministration, Operation: "*.*", Description: "Super administrator"},
-	{Group: PermissionGroupAdministration, Operation: "role.create", Description: "Can create role"},
-	{Group: PermissionGroupAdministration, Operation: "role.edit", Description: "Can edit role"},
+import (
+	"context"
+	"fmt"
+	"time"
+)
 
-	//employee management
-	{Group: PermissionGroupEmployee, Operation: "employee.create", Description: "Can create employee"},
-	{Group: PermissionGroupEmployee, Operation: "employee.remove", Description: "Can remove employee"},
+// PermissionAction ...
+type PermissionAction string
 
-	// agent management
-	{Group: PermissionGroupAgent, Operation: "agent.view", Description: "Can view agents"},
-	{Group: PermissionGroupAgent, Operation: "agent.register", Description: "Can register agent"},
-	{Group: PermissionGroupAgent, Operation: "agent.suspend", Description: "Can suspend agent"},
-	{Group: PermissionGroupAgent, Operation: "agent.unsuspend", Description: "Can unsuspebd agent"},
+// IsValid
+func (a PermissionAction) IsValid() bool {
+	switch a {
+	case CreateAction, ReadAction, UpdateAction, DeleteAction:
+		return true
+	}
+	return false
+}
 
-	// partner management
-	{Group: PermissionGroupPartner, Operation: "partner.view", Description: "Can view partners"},
-	{Group: PermissionGroupPartner, Operation: "partner.create", Description: "Can create partner"},
-	{Group: PermissionGroupPartner, Operation: "kyc.process", Description: "Can process KYC"},
+const (
+	CreateAction PermissionAction = "create"
+	ReadAction   PermissionAction = "read"
+	UpdateAction PermissionAction = "update"
+	DeleteAction PermissionAction = "delete"
+)
 
-	// consumer management
-	{Group: PermissionGroupConsumer, Operation: "consumer.view", Description: "Can view consumers"},
-	{Group: PermissionGroupConsumer, Operation: "consumer.create", Description: "Can add consumer"},
+// Permission defines an approval of a mode of access to a resource
+type Permission struct {
+	// Code acts as a unique identifier for a permission
+	Code string `json:"code" firestore:"code"`
 
-	// patient management
-	{Group: PermissionGroupPatient, Operation: "patient.view", Description: "Can view patient"},
-	{Group: PermissionGroupPatient, Operation: "patient.create", Description: "Can add patient"},
+	// Resource represents the object on which access acts upon
+	Resource string `json:"resource" firestore:"resource"`
+
+	// Action is the right one has on a resource
+	Action PermissionAction `json:"action" firestore:"action"`
+
+	// Description is used to keep details for a particular permission
+	Description string `json:"description" firestore:"description"`
+
+	Allowed bool `json:"allowed" firestore:"allowed"`
+}
+
+// String returns the operation formated as a string
+//
+// The operation is formatted as "{resource}.{action}"
+// It can be used by clients which are required to b permissions
+func (p Permission) String() string {
+	return fmt.Sprintf("%v.%v", p.Resource, p.Action)
+}
+
+// Role is the user group defining permissions
+type Role struct {
+	// Unique identifier for a role
+	ID string `json:"id" firestore:"id"`
+
+	// Name given to the role
+	Name string `json:"name" firestore:"name"`
+
+	// Description is used to keep details for a particular role
+	Description string `json:"description" firestore:"description"`
+
+	// Profile ID of the user creating the role.
+	ProfileID string `json:"profileID,omitempty" firestore:"profileID"`
+
+	// Organization ID for which the role is created and used
+	OrganizationID string `json:"organizationID,omitempty" firestore:"organizationID"`
+
+	// Active indicates whether the role is operational
+	Active bool `json:"active" firestore:"active"`
+
+	// Created is the timestamp indicating when the role was created
+	Created time.Time `json:"created" firestore:"created"`
+
+	// Permissions
+	Permissions []Permission `json:"permissions" firestore:"permissions"`
+}
+
+// GetPermissions returns the permissions for a role formatted as a string
+func (r Role) GetPermissions() []string {
+	perms := []string{}
+
+	for _, perm := range r.Permissions {
+		perms = append(perms, perm.String())
+	}
+
+	return perms
+}
+
+var PermissionCode = 1
+
+// Role resource related permissions
+var (
+	CreateRole Permission = Permission{
+		Code:        "1",
+		Resource:    "role",
+		Action:      CreateAction,
+		Description: "Can add a role",
+	}
+
+	DeleteRole Permission = Permission{
+		Code:        "2",
+		Resource:    "role",
+		Action:      DeleteAction,
+		Description: "Can remove a role",
+	}
+
+	UpdateRole Permission = Permission{
+		Code:        "3",
+		Resource:    "role",
+		Action:      UpdateAction,
+		Description: "Can edit a role",
+	}
+
+	ViewRole Permission = Permission{
+		Code:        "4",
+		Resource:    "role",
+		Action:      ReadAction,
+		Description: "Can view a role",
+	}
+)
+
+// Agent resource related permissions
+var (
+	CreateAgent Permission = Permission{
+		Code:        "5",
+		Resource:    "agent",
+		Action:      CreateAction,
+		Description: "Can add an agent",
+	}
+
+	DeleteAgent Permission = Permission{
+		Code:        "6",
+		Resource:    "agent",
+		Action:      DeleteAction,
+		Description: "Can remove an agent",
+	}
+
+	UpdateAgent Permission = Permission{
+		Code:        "7",
+		Resource:    "agent",
+		Action:      UpdateAction,
+		Description: "Can edit an agent",
+	}
+
+	ViewAgent Permission = Permission{
+		Code:        "8",
+		Resource:    "agent",
+		Action:      ReadAction,
+		Description: "Can view an agent",
+	}
+)
+
+// Employee resource related permissions
+var (
+	CreateEmployee Permission = Permission{
+		Code:        "9",
+		Resource:    "employee",
+		Action:      CreateAction,
+		Description: "Can add an employee",
+	}
+
+	DeleteEmployee Permission = Permission{
+		Code:        "10",
+		Resource:    "employee",
+		Action:      DeleteAction,
+		Description: "Can remove an employee",
+	}
+
+	UpdateEmployee Permission = Permission{
+		Code:        "11",
+		Resource:    "employee",
+		Action:      UpdateAction,
+		Description: "Can edit an employee",
+	}
+
+	ViewEmployee Permission = Permission{
+		Code:        "12",
+		Resource:    "employee",
+		Action:      ReadAction,
+		Description: "Can view an employee",
+	}
+)
+
+// Consumer resource related permissions
+var (
+	CreateConsumer Permission = Permission{
+		Code:        "13",
+		Resource:    "consumer",
+		Action:      CreateAction,
+		Description: "Can add an consumer",
+	}
+
+	DeleteConsumer Permission = Permission{
+		Code:        "14",
+		Resource:    "consumer",
+		Action:      DeleteAction,
+		Description: "Can remove an consumer",
+	}
+
+	UpdateConsumer Permission = Permission{
+		Code:        "15",
+		Resource:    "consumer",
+		Action:      UpdateAction,
+		Description: "Can edit an consumer",
+	}
+
+	ViewConsumer Permission = Permission{
+		Code:        "16",
+		Resource:    "consumer",
+		Action:      ReadAction,
+		Description: "Can view an consumer",
+	}
+)
+
+// Patient resource related permissions
+var (
+	CreatePatient Permission = Permission{
+		Code:        "17",
+		Resource:    "patient",
+		Action:      CreateAction,
+		Description: "Can add a patient",
+	}
+
+	DeletePatient Permission = Permission{
+		Code:        "18",
+		Resource:    "patient",
+		Action:      DeleteAction,
+		Description: "Can remove a patient",
+	}
+
+	UpdatePatient Permission = Permission{
+		Code:        "19",
+		Resource:    "patient",
+		Action:      UpdateAction,
+		Description: "Can edit a patient",
+	}
+
+	ViewPatient Permission = Permission{
+		Code:        "20",
+		Resource:    "patient",
+		Action:      ReadAction,
+		Description: "Can view a patient",
+	}
+)
+
+// KYC resource related permissions
+var (
+	CreateKYC Permission = Permission{
+		Code:        "21",
+		Resource:    "kyc",
+		Action:      CreateAction,
+		Description: "Can add a kyc",
+	}
+
+	UpdateKYC Permission = Permission{
+		Code:        "22",
+		Resource:    "kyc",
+		Action:      UpdateAction,
+		Description: "Can edit a kyc",
+	}
+
+	ViewKYC Permission = Permission{
+		Code:        "23",
+		Resource:    "kyc",
+		Action:      ReadAction,
+		Description: "Can view a kyc",
+	}
+)
+
+// AllPermissions returns all the defined permissions
+func AllPermissions(ctx context.Context) ([]Permission, error) {
+	permissions := []Permission{
+		CreateRole, UpdateRole, ViewRole, DeleteRole,
+		CreateAgent, UpdateAgent, ViewAgent, DeleteAgent,
+		CreateEmployee, UpdateEmployee, ViewEmployee, DeleteEmployee,
+		CreatePatient, UpdatePatient, ViewPatient, DeletePatient,
+		CreateKYC, UpdateKYC, ViewKYC,
+	}
+	// validate unique code for each permission
+	// look into improvements on "code" creation // human error risk
+
+	return permissions, nil
+}
+
+// UniquePermissions validates that each permission has a unique code
+//
+// The validation has a test against the declared perms to ensure no variable duplication
+func UniquePermissions(ctx context.Context, permissions []Permission) error {
+	occurred := map[string]bool{}
+	for _, perm := range permissions {
+		// check if already the mapped
+		if !occurred[perm.Code] {
+			occurred[perm.Code] = true
+		} else {
+			return fmt.Errorf("permission exist,permission code:%v", perm.Code)
+		}
+	}
+
+	return nil
+}
+
+// GetPermission retrieves a single permission using its code
+func GetPermission(ctx context.Context, code string) (*Permission, error) {
+	permissions, err := AllPermissions(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	var p *Permission
+	for _, permission := range permissions {
+		if permission.Code == code {
+			p = &permission
+			break
+		}
+	}
+
+	if p == nil {
+		return nil, fmt.Errorf("permission not found")
+	}
+
+	return p, nil
+
 }

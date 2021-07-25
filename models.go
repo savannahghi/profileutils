@@ -9,15 +9,6 @@ import (
 // PermissionGroup used to group permissions that have related resources
 type PermissionGroup string
 
-// PermissionType is the string formart of "resource.action" for roles
-type Permission struct {
-	Group PermissionGroup `json:"group,omitempty"`
-	// operation is the resource and action allowed respectively e.g "user.create"
-	Operation   string `json:"action,omitempty"`
-	Allowed     bool   `json:"allowed,omitempty"`
-	Description string `json:"description,omitempty"`
-}
-
 // ActionGroup is the codes for grouping related navigationactions
 type ActionGoup string
 
@@ -57,15 +48,15 @@ type NavigationActions struct {
 
 // Upload represents a file uploaded to cloud storage
 type Upload struct {
-	ID          string    `json:"id" firestore:"id"`
-	URL         string    `json:"url" firestore:"url"`
-	Size        int       `json:"size" firestore:"size"`
-	Hash        string    `json:"hash" firestore:"hash"`
-	Creation    time.Time `json:"creation" firestore:"creation"`
-	Title       string    `json:"title" firestore:"title"`
+	ID          string    `json:"id"          firestore:"id"`
+	URL         string    `json:"url"         firestore:"url"`
+	Size        int       `json:"size"        firestore:"size"`
+	Hash        string    `json:"hash"        firestore:"hash"`
+	Creation    time.Time `json:"creation"    firestore:"creation"`
+	Title       string    `json:"title"       firestore:"title"`
 	ContentType string    `json:"contentType" firestore:"contentType"`
-	Language    string    `json:"language" firestore:"language"`
-	Base64data  string    `json:"base64data" firestore:"base64data"`
+	Language    string    `json:"language"    firestore:"language"`
+	Base64data  string    `json:"base64data"  firestore:"base64data"`
 }
 
 // IsEntity marks upload as an apollo federation entity

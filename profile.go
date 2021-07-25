@@ -99,7 +99,13 @@ var AllPartnerType = []PartnerType{
 // IsValid checks if a partner type is valid or not
 func (e PartnerType) IsValid() bool {
 	switch e {
-	case PartnerTypeRider, PartnerTypePractitioner, PartnerTypeProvider, PartnerTypePharmaceutical, PartnerTypeCoach, PartnerTypeNutrition, PartnerTypeConsumer:
+	case PartnerTypeRider,
+		PartnerTypePractitioner,
+		PartnerTypeProvider,
+		PartnerTypePharmaceutical,
+		PartnerTypeCoach,
+		PartnerTypeNutrition,
+		PartnerTypeConsumer:
 		return true
 	}
 	return false
@@ -130,15 +136,15 @@ func (e PartnerType) MarshalGQL(w io.Writer) {
 
 // Cover is used to save a user's insurance details.
 type Cover struct {
-	IdentifierHash        *string   `json:"identifier_hash" firestore:"identifierHash"`
-	PayerName             string    `json:"payer_name,omitempty" firestore:"payerName"`
-	PayerSladeCode        int       `json:"payer_slade_code,omitempty" firestore:"payerSladeCode"`
-	MemberNumber          string    `json:"member_number,omitempty" firestore:"memberNumber"`
-	MemberName            string    `json:"member_name,omitempty" firestore:"memberName"`
-	BeneficiaryID         int       `json:"beneficiary_id,omitempty" firestore:"beneficiaryID"`
+	IdentifierHash        *string   `json:"identifier_hash"                   firestore:"identifierHash"`
+	PayerName             string    `json:"payer_name,omitempty"              firestore:"payerName"`
+	PayerSladeCode        int       `json:"payer_slade_code,omitempty"        firestore:"payerSladeCode"`
+	MemberNumber          string    `json:"member_number,omitempty"           firestore:"memberNumber"`
+	MemberName            string    `json:"member_name,omitempty"             firestore:"memberName"`
+	BeneficiaryID         int       `json:"beneficiary_id,omitempty"          firestore:"beneficiaryID"`
 	EffectivePolicyNumber string    `json:"effective_policy_number,omitempty" firestore:"effectivePolicyNumber"`
-	ValidFrom             time.Time `json:"valid_from,omitempty" firestore:"validFrom"`
-	ValidTo               time.Time `json:"valid_to,omitempty" firestore:"validTo"`
+	ValidFrom             time.Time `json:"valid_from,omitempty"              firestore:"validFrom"`
+	ValidTo               time.Time `json:"valid_to,omitempty"                firestore:"validTo"`
 }
 
 // IsEntity marks this struct as a GraphQL entity
@@ -146,16 +152,16 @@ func (c Cover) IsEntity() {}
 
 // BioData structure of bio data information for a user
 type BioData struct {
-	FirstName   *string           `json:"firstName" firestore:"firstName"`
-	LastName    *string           `json:"lastName" firestore:"lastName"`
+	FirstName   *string           `json:"firstName"   firestore:"firstName"`
+	LastName    *string           `json:"lastName"    firestore:"lastName"`
 	DateOfBirth *scalarutils.Date `json:"dateOfBirth" firestore:"dateOfBirth"`
-	Gender      enumutils.Gender  `json:"gender" firestore:"gender"`
+	Gender      enumutils.Gender  `json:"gender"      firestore:"gender"`
 }
 
 // VerifiedIdentifier metadata of how the user has logged in to bewell
 type VerifiedIdentifier struct {
-	UID           string            `json:"uid" firestore:"uid"`
-	Timestamp     time.Time         `json:"timeStamp" firestore:"timeStamp"`
+	UID           string            `json:"uid"           firestore:"uid"`
+	Timestamp     time.Time         `json:"timeStamp"     firestore:"timeStamp"`
 	LoginProvider LoginProviderType `json:"loginProvider" firestore:"loginProvider"`
 }
 
@@ -167,7 +173,11 @@ type UserProfileRepository interface {
 	UpdatePrimaryEmailAddress(ctx context.Context, id string, emailAddress string) error
 	UpdateSecondaryPhoneNumbers(ctx context.Context, id string, phoneNumbers []string) error
 	UpdateSecondaryEmailAddresses(ctx context.Context, id string, emailAddresses []string) error
-	UpdateVerifiedIdentifiers(ctx context.Context, id string, identifiers []VerifiedIdentifier) error
+	UpdateVerifiedIdentifiers(
+		ctx context.Context,
+		id string,
+		identifiers []VerifiedIdentifier,
+	) error
 	UpdateVerifiedUIDS(ctx context.Context, id string, uids []string) error
 	UpdateSuspended(ctx context.Context, id string, status bool) error
 	UpdatePhotoUploadID(ctx context.Context, id string, uploadID string) error
@@ -175,18 +185,19 @@ type UserProfileRepository interface {
 	UpdatePushTokens(ctx context.Context, id string, pushToken []string) error
 	UpdatePermissions(ctx context.Context, id string, perms []Permission) error
 	UpdateBioData(ctx context.Context, id string, data BioData) error
-	UpdateAddresses(ctx context.Context, id string, address Address, addressType enumutils.AddressType) error
-	UpdateAppVersion(ctx context.Context, id string, appVersion string, flavour feedlib.Flavour) error
+	UpdateAddresses(
+		ctx context.Context,
+		id string,
+		address Address,
+		addressType enumutils.AddressType,
+	) error
+	UpdateAppVersion(
+		ctx context.Context,
+		id string,
+		appVersion string,
+		flavour feedlib.Flavour,
+	) error
 	AddRole(ctx context.Context, id string, role string) error
-}
-
-// Role is the user group defining permissions
-type Role struct {
-	ID                 string   `json:"id,omitempty"`
-	OrganizationID     string   `json:"organizationID,omitempty"`
-	Name               string   `json:"name,omitempty"`
-	AllowedPermissions []string `json:"permission,omitempty"`
-	Description        string   `json:"description,omitempty"`
 }
 
 // UserProfile serializes the profile of the logged in user.
@@ -296,12 +307,12 @@ func (u UserProfile) HasFavorite(title string) bool {
 // UserCommunicationsSetting hold information about the user communication's channels.
 // if a channel is true, we will be able to send them marketing or promotional messages
 type UserCommunicationsSetting struct {
-	ID            string `json:"id" firestore:"id"`
-	ProfileID     string `json:"profileID" firestore:"profileID"`
+	ID            string `json:"id"            firestore:"id"`
+	ProfileID     string `json:"profileID"     firestore:"profileID"`
 	AllowWhatsApp bool   `json:"allowWhatsApp" firestore:"allowWhatsApp"`
-	AllowTextSMS  bool   `json:"allowTextSMS" firestore:"allowTextSMS"`
-	AllowPush     bool   `json:"allowPush" firestore:"allowPush"`
-	AllowEmail    bool   `json:"allowEmail" firestore:"allowEmail"`
+	AllowTextSMS  bool   `json:"allowTextSMS"  firestore:"allowTextSMS"`
+	AllowPush     bool   `json:"allowPush"     firestore:"allowPush"`
+	AllowEmail    bool   `json:"allowEmail"    firestore:"allowEmail"`
 }
 
 // UserResponse returns a user's sign up/in response
@@ -329,20 +340,20 @@ type AuthCredentialResponse struct {
 
 // Customer used to create a customer request payload
 type Customer struct {
-	ID                 string             `json:"customerID" firestore:"id"`
+	ID                 string             `json:"customerID"          firestore:"id"`
 	ProfileID          *string            `json:"profileID,omitempty" firestore:"profileID"`
-	CustomerID         string             `json:"id,omitempty" firestore:"erpCustomerID"`
+	CustomerID         string             `json:"id,omitempty"        firestore:"erpCustomerID"`
 	ReceivablesAccount ReceivablesAccount `json:"receivables_account" firestore:"receivablesAccount"`
-	Active             bool               `json:"active" firestore:"active"`
+	Active             bool               `json:"active"              firestore:"active"`
 }
 
 // ReceivablesAccount stores a customer's receivables account info
 type ReceivablesAccount struct {
-	ID          string `json:"id" firestore:"id"`
-	Name        string `json:"name" firestore:"name"`
-	IsActive    bool   `json:"is_active" firestore:"isActive"`
-	Number      string `json:"number" firestore:"number"`
-	Tag         string `json:"tag" firestore:"tag"`
+	ID          string `json:"id"          firestore:"id"`
+	Name        string `json:"name"        firestore:"name"`
+	IsActive    bool   `json:"is_active"   firestore:"isActive"`
+	Number      string `json:"number"      firestore:"number"`
+	Tag         string `json:"tag"         firestore:"tag"`
 	Description string `json:"description" firestore:"description"`
 }
 
@@ -379,25 +390,25 @@ func (e EDIUserProfile) IsEntity() {}
 // Supplier used to create a supplier request payload
 // You can add more or remove fields to suit your organization/project needs
 type Supplier struct {
-	ID                     string                 `json:"supplierID" firestore:"id"`
-	ProfileID              *string                `json:"profileID" firestore:"profileID"`
-	SupplierID             string                 `json:"id" firestore:"erpSupplierID"`
-	SupplierName           string                 `json:"supplierName" firestore:"supplierName"`
-	PayablesAccount        *PayablesAccount       `json:"payables_account" firestore:"payablesAccount"`
-	SupplierKYC            map[string]interface{} `json:"supplierKYC" firestore:"supplierKYC"`
-	Active                 bool                   `json:"active" firestore:"active"`
-	AccountType            *AccountType           `json:"accountType" firestore:"accountType"`
-	UnderOrganization      bool                   `json:"underOrganization" firestore:"underOrganization"`
+	ID                     string                 `json:"supplierID"             firestore:"id"`
+	ProfileID              *string                `json:"profileID"              firestore:"profileID"`
+	SupplierID             string                 `json:"id"                     firestore:"erpSupplierID"`
+	SupplierName           string                 `json:"supplierName"           firestore:"supplierName"`
+	PayablesAccount        *PayablesAccount       `json:"payables_account"       firestore:"payablesAccount"`
+	SupplierKYC            map[string]interface{} `json:"supplierKYC"            firestore:"supplierKYC"`
+	Active                 bool                   `json:"active"                 firestore:"active"`
+	AccountType            *AccountType           `json:"accountType"            firestore:"accountType"`
+	UnderOrganization      bool                   `json:"underOrganization"      firestore:"underOrganization"`
 	IsOrganizationVerified bool                   `json:"isOrganizationVerified" firestore:"isOrganizationVerified"`
-	SladeCode              string                 `json:"sladeCode" firestore:"sladeCode"`
-	ParentOrganizationID   string                 `json:"parentOrganizationID" firestore:"parentOrganizationID"`
-	OrganizationName       string                 `json:"organizationName" firestore:"organizationName"`
-	HasBranches            bool                   `json:"hasBranches,omitempty" firestore:"hasBranches"`
-	Location               *Location              `json:"location,omitempty" firestore:"location"`
-	PartnerType            PartnerType            `json:"partnerType" firestore:"partnerType"`
-	EDIUserProfile         *EDIUserProfile        `json:"ediuserprofile" firestore:"ediserprofile"`
-	PartnerSetupComplete   bool                   `json:"partnerSetupComplete" firestore:"partnerSetupComplete"`
-	KYCSubmitted           bool                   `json:"kycSubmitted" firestore:"kycSubmitted"`
+	SladeCode              string                 `json:"sladeCode"              firestore:"sladeCode"`
+	ParentOrganizationID   string                 `json:"parentOrganizationID"   firestore:"parentOrganizationID"`
+	OrganizationName       string                 `json:"organizationName"       firestore:"organizationName"`
+	HasBranches            bool                   `json:"hasBranches,omitempty"  firestore:"hasBranches"`
+	Location               *Location              `json:"location,omitempty"     firestore:"location"`
+	PartnerType            PartnerType            `json:"partnerType"            firestore:"partnerType"`
+	EDIUserProfile         *EDIUserProfile        `json:"ediuserprofile"         firestore:"ediserprofile"`
+	PartnerSetupComplete   bool                   `json:"partnerSetupComplete"   firestore:"partnerSetupComplete"`
+	KYCSubmitted           bool                   `json:"kycSubmitted"           firestore:"kycSubmitted"`
 }
 
 // Location is used to store a user's branch or organisation
