@@ -2,8 +2,8 @@ package profileutils
 
 const (
 	// the available groups for nested actions
-	ActionGoupAgent   ActionGoup = "AGENT"
-	ActionGoupPatient ActionGoup = "PATIENT"
+	ActionGroupAgent   ActionGroup = "AGENT"
+	ActionGroupPatient ActionGroup = "PATIENT"
 
 	// the available groups for nested actions
 	PermissionGroupAdministration PermissionGroup = "Administration"

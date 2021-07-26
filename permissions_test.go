@@ -12,7 +12,7 @@ func TestPermission_String(t *testing.T) {
 	type fields struct {
 		Code        string
 		Resource    string
-		Action      profileutils.PermissionAction
+		Action      string
 		Description string
 		Allowed     bool
 	}
@@ -26,7 +26,7 @@ func TestPermission_String(t *testing.T) {
 			fields: fields{
 				Code:        "001",
 				Resource:    "role",
-				Action:      profileutils.CreateAction,
+				Action:      "create",
 				Description: "Can add a role",
 			},
 			want: "role.create",
@@ -48,32 +48,6 @@ func TestPermission_String(t *testing.T) {
 	}
 }
 
-func TestPermissionAction_IsValid(t *testing.T) {
-	tests := []struct {
-		name string
-		a    profileutils.PermissionAction
-		want bool
-	}{
-		{
-			name: "success:valid action",
-			a:    "create",
-			want: true,
-		},
-		{
-			name: "fail:invalid action",
-			a:    "test",
-			want: false,
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.a.IsValid(); got != tt.want {
-				t.Errorf("PermissionAction.IsValid() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
 func TestUniquePermissions(t *testing.T) {
 	ctx := context.Background()
 	p, err := profileutils.AllPermissions(ctx)
@@ -86,12 +60,12 @@ func TestUniquePermissions(t *testing.T) {
 		{
 			Code:     "001",
 			Resource: "dupe",
-			Action:   profileutils.CreateAction,
+			Action:   "create",
 		},
 		{
 			Code:     "001",
 			Resource: "dupe",
-			Action:   profileutils.CreateAction,
+			Action:   "create",
 		},
 	}
 	type args struct {

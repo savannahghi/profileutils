@@ -10,12 +10,12 @@ import (
 type PermissionGroup string
 
 // ActionGroup is the codes for grouping related navigationactions
-type ActionGoup string
+type ActionGroup string
 
 //NavigationAction is a Navigation Action that a user can perform on the app
 type NavigationAction struct {
 	// How Navaction and nested children are related
-	Group ActionGoup `json:"group,omitempty"`
+	Group ActionGroup `json:"group,omitempty"`
 
 	//  The name of the action
 	Title string `json:"title,omitempty"`

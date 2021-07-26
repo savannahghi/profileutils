@@ -43,7 +43,7 @@ var ConsumerNavAction NavigationAction = NavigationAction{
 
 // AgentNavAction ...
 var AgentNavAction NavigationAction = NavigationAction{
-	Group:    ActionGoupAgent,
+	Group:    ActionGroupAgent,
 	Title:    AgentNavActionTitle,
 	Icon:     AgentNavActionIcon,
 	IsParent: true,
@@ -51,21 +51,21 @@ var AgentNavAction NavigationAction = NavigationAction{
 
 // AgentRegistrationAction ...
 var AgentRegistrationAction NavigationAction = NavigationAction{
-	Group:      ActionGoupAgent,
+	Group:      ActionGroupAgent,
 	Title:      AgentRegistrationActionTitle,
 	OnTapRoute: AgentRegistrationRoute,
 }
 
 // AgentIdentificationAction ...
 var AgentIdentificationAction NavigationAction = NavigationAction{
-	Group:      ActionGoupAgent,
+	Group:      ActionGroupAgent,
 	Title:      AgentIdentificationActionTitle,
 	OnTapRoute: AgentIdentificationRoute,
 }
 
 // PatientNavAction ...
 var PatientNavAction NavigationAction = NavigationAction{
-	Group:    ActionGoupPatient,
+	Group:    ActionGroupPatient,
 	Title:    PatientNavActionTitle,
 	Icon:     PatientNavActionIcon,
 	IsParent: true,
@@ -73,14 +73,14 @@ var PatientNavAction NavigationAction = NavigationAction{
 
 // PatientRegistrationAction ...
 var PatientRegistrationAction NavigationAction = NavigationAction{
-	Group:      ActionGoupPatient,
+	Group:      ActionGroupPatient,
 	Title:      PatientRegistrationActionTitle,
 	OnTapRoute: PatientRegistrationRoute,
 }
 
 // PatientIdentificationAction ...
 var PatientIdentificationAction NavigationAction = NavigationAction{
-	Group:      ActionGoupPatient,
+	Group:      ActionGroupPatient,
 	Title:      PatientIdentificationActionTitle,
 	OnTapRoute: PatientIdentificationRoute,
 }
