@@ -342,6 +342,9 @@ type UserProfile struct {
 	// Role of the user in the system. Valid for Suppliers, SIL employees and Agents
 	Role RoleType `json:"role,omitempty" firestore:"role"`
 
+	//  Roles is a list of Role IDs assigned to user
+	Roles []string `json:"roles,omitempty" firestore:"roles"`
+
 	// what the user is allowed to do. Only valid for admins
 	Permissions []PermissionType `json:"permissions,omitempty" firestore:"permissions"`
 
@@ -403,6 +406,16 @@ func (u UserProfile) IsEntity() {}
 func (u UserProfile) HasPermission(perm PermissionType) bool {
 	for _, p := range u.Permissions {
 		if p == perm {
+			return true
+		}
+	}
+	return false
+}
+
+// HasRole checks if user has role
+func (u UserProfile) HasRole(roleId string) bool {
+	for _, role := range u.Roles {
+		if role == roleId {
 			return true
 		}
 	}
