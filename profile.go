@@ -13,6 +13,131 @@ import (
 	"github.com/savannahghi/scalarutils"
 )
 
+// PermissionType defines the type of a permission
+type PermissionType string
+
+// bewell admin permissions.
+// this is not exhausive. More will be added on a need by need basis after analysis of the application
+// and assert what actions need to the admin-permissioned
+const (
+	PermissionTypeSuperAdmin  PermissionType = "SUPER_ADMIN"
+	PermissionTypeAdmin       PermissionType = "ADMIN"
+	PermissionTypeCreateAdmin PermissionType = "CREATE_ADMIN"
+	PermissionTypeRemoveAdmin PermissionType = "REMOVE_ADMIN"
+	PermissionTypeAddSupplier PermissionType = "ADD_SUPPLIER"
+	// whether an admin can add a supplier
+	PermissionTypeRemoveSupplier PermissionType = "REMOVE_SUPPLIER"
+	// whether an admin can suspend a supplier
+	PermissionTypeSuspendSupplier PermissionType = "SUSPEND_SUPPLIER"
+	// whether an admin can unsuspend a supplier
+	PermissionTypeUnSuspendSupplier PermissionType = "UNSUSPEND_SUPPLIER"
+	// whether an admin can view and process(approve/reject) kyc requests
+	PermissionTypeProcessKYC PermissionType = "PROCESS_KYC"
+
+	// agent management permissions
+	PermissionTypeRegisterAgent  PermissionType = "REGISTER_AGENT"
+	PermissionTypeSuspendAgent   PermissionType = "SUSPEND_AGENT"
+	PermissionTypeUnsuspendAgent PermissionType = "UNSUSPEND_AGENT"
+
+	// partner management permissions
+	PermissionTypeCreatePartner PermissionType = "CREATE_PARTNER"
+	PermissionTypeUpdatePartner PermissionType = "UPDATE_PARTNER"
+	PermissionTypeDeletePartner PermissionType = "DELETE_PARTNER"
+
+	// consumer management permissions
+	PermissionTypeCreateConsumer PermissionType = "CREATE_CONSUMER"
+	PermissionTypeUpdateConsumer PermissionType = "UPDATE_CONSUMER"
+	PermissionTypeDeleteConsumer PermissionType = "DELETE_CONSUMER"
+
+	// patient management permissions
+	PermissionTypeCreatePatient   PermissionType = "CREATE_PATIENT"
+	PermissionTypeUpdatePatient   PermissionType = "UPDATE_PATIENT"
+	PermissionTypeDeletePatient   PermissionType = "DELETE_PATIENT"
+	PermissionTypeIdentifyPatient PermissionType = "IDENTIFY_PATIENT"
+)
+
+// DefaultSuperAdminPermissions generic permissions for super admins.
+// These permissions should be given to the Be.Well dev team.
+var DefaultSuperAdminPermissions []PermissionType = []PermissionType{
+	PermissionTypeSuperAdmin,
+	PermissionTypeCreateAdmin,
+	PermissionTypeRemoveAdmin,
+	PermissionTypeAddSupplier,
+	PermissionTypeRemoveSupplier,
+	PermissionTypeSuspendSupplier,
+	PermissionTypeUnSuspendSupplier,
+	PermissionTypeProcessKYC,
+}
+
+// DefaultAdminPermissions generic permissions for admins.
+// These permissions should be given to SIL customer happiness and relationship
+// management staff.
+var DefaultAdminPermissions []PermissionType = []PermissionType{
+	PermissionTypeSuperAdmin,
+	PermissionTypeAdmin,
+	PermissionTypeAddSupplier,
+	PermissionTypeSuspendSupplier,
+	PermissionTypeUnSuspendSupplier,
+	PermissionTypeProcessKYC,
+}
+
+//DefaultEmployeePermissions generic permissions for field agents
+// These permissions should be given to SIL field agents
+var DefaultEmployeePermissions []PermissionType = []PermissionType{
+	PermissionTypeRegisterAgent,
+	PermissionTypeSuspendAgent,
+	PermissionTypeUnsuspendAgent,
+	PermissionTypeCreateConsumer,
+	PermissionTypeUpdateConsumer,
+	PermissionTypeDeleteConsumer,
+	PermissionTypeCreatePatient,
+	PermissionTypeUpdatePatient,
+	PermissionTypeDeletePatient,
+	PermissionTypeIdentifyPatient,
+}
+
+//DefaultAgentPermissions generic permissions for field agents.
+// These permissions should be given to SIL field agents
+var DefaultAgentPermissions []PermissionType = []PermissionType{
+	PermissionTypeCreatePartner,
+	PermissionTypeUpdatePartner,
+	PermissionTypeCreateConsumer,
+	PermissionTypeUpdateConsumer,
+}
+
+// RoleType defines the type of role a subject has
+// and the associated permissions
+type RoleType string
+
+// Various roles in bewell
+const (
+	RoleTypeEmployee RoleType = "EMPLOYEE"
+	RoleTypeAgent    RoleType = "AGENT"
+)
+
+// IsValid checks if the role type is valid
+func (r RoleType) IsValid() bool {
+	switch r {
+	case RoleTypeEmployee, RoleTypeAgent:
+		return true
+	default:
+		return false
+	}
+}
+
+// Permissions returns permissions for a certain role
+func (r RoleType) Permissions() []PermissionType {
+	switch r {
+	case RoleTypeEmployee:
+		return DefaultEmployeePermissions
+
+	case RoleTypeAgent:
+		return DefaultAgentPermissions
+	default:
+		return []PermissionType{}
+	}
+}
+
 // LoginProviderType defines the method of used to login to bewell
 type LoginProviderType string
 
@@ -173,20 +298,11 @@ type UserProfileRepository interface {
 	UpdatePhotoUploadID(ctx context.Context, id string, uploadID string) error
 	UpdateCovers(ctx context.Context, id string, covers []Cover) error
 	UpdatePushTokens(ctx context.Context, id string, pushToken []string) error
-	UpdatePermissions(ctx context.Context, id string, perms []Permission) error
+	UpdatePermissions(ctx context.Context, id string, perms []PermissionType) error
 	UpdateBioData(ctx context.Context, id string, data BioData) error
 	UpdateAddresses(ctx context.Context, id string, address Address, addressType enumutils.AddressType) error
 	UpdateAppVersion(ctx context.Context, id string, appVersion string, flavour feedlib.Flavour) error
-	AddRole(ctx context.Context, id string, role string) error
-}
-
-// Role is the user group defining permissions
-type Role struct {
-	ID                 string   `json:"id,omitempty"`
-	OrganizationID     string   `json:"organizationID,omitempty"`
-	Name               string   `json:"name,omitempty"`
-	AllowedPermissions []string `json:"permission,omitempty"`
-	Description        string   `json:"description,omitempty"`
+	UpdateRole(ctx context.Context, id string, role RoleType) error
 }
 
 // UserProfile serializes the profile of the logged in user.
@@ -224,10 +340,10 @@ type UserProfile struct {
 	PushTokens []string `json:"pushTokens,omitempty" firestore:"pushTokens"`
 
 	// Role of the user in the system. Valid for Suppliers, SIL employees and Agents
-	Role string `json:"role,omitempty" firestore:"role"`
+	Role RoleType `json:"role,omitempty" firestore:"role"`
 
-	// Role of the user in the system. Valid for Suppliers, SIL employees and Agents
-	Roles []string `json:"roles,omitempty" firestore:"roles"`
+	// what the user is allowed to do. Only valid for admins
+	Permissions []PermissionType `json:"permissions,omitempty" firestore:"permissions"`
 
 	// favorite navactions are titles of the navactions that the user has bookmarked
 	FavNavActions []string `json:"favNavActions,omitempty" firestore:"favNavActions"`
@@ -283,10 +399,10 @@ type UserInfo struct {
 // IsEntity marks a profile as a GraphQL entity
 func (u UserProfile) IsEntity() {}
 
-// HasFavorite checks if user has specific permission
-func (u UserProfile) HasFavorite(title string) bool {
-	for _, favorite := range u.FavNavActions {
-		if favorite == title {
+// HasPermission checks if user has specific permission
+func (u UserProfile) HasPermission(perm PermissionType) bool {
+	for _, p := range u.Permissions {
+		if p == perm {
 			return true
 		}
 	}
@@ -302,6 +418,42 @@ type UserCommunicationsSetting struct {
 	AllowTextSMS  bool   `json:"allowTextSMS" firestore:"allowTextSMS"`
 	AllowPush     bool   `json:"allowPush" firestore:"allowPush"`
 	AllowEmail    bool   `json:"allowEmail" firestore:"allowEmail"`
+}
+
+//NavAction is a Navigation Action that a user can perform on the app
+type NavAction struct {
+	//  The name of the action
+	Title string `json:"title"`
+
+	// How the action is handled when tapped
+	OnTapRoute string `json:"onTapRoute"`
+
+	// A link to a PNG image that would serve as an avatar
+	Icon feedlib.Link `json:"icon"`
+
+	// Whether the user has marked the action as a favourite
+	Favourite bool `json:"favourite"`
+
+	// Sub menus in a navigation action
+	Nested []NestedNavAction `json:"nested"`
+}
+
+//NestedNavAction is a nested navigation action which  is a sub menu
+type NestedNavAction struct {
+	//  The name of the action
+	Title string `json:"title"`
+
+	// How the action is handled when tapped
+	OnTapRoute string `json:"onTapRoute"`
+}
+
+//NavigationActions are Role based Navigation Actions for a User
+type NavigationActions struct {
+	// The primary actions the user can perform
+	Primary []NavAction `json:"primary"`
+
+	// The secondary action the user can perform
+	Secondary []NavAction `json:"secondary"`
 }
 
 // UserResponse returns a user's sign up/in response
