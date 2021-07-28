@@ -275,26 +275,32 @@ type Role struct {
 	// Unique identifier for a role
 	ID string `json:"id" firestore:"id"`
 
+	// Organization ID for which the role is created and used
+	OrganizationID string `json:"organizationID,omitempty" firestore:"organizationID"`
+
 	// Name given to the role
 	Name string `json:"name" firestore:"name"`
 
 	// Description is used to keep details for a particular role
 	Description string `json:"description" firestore:"description"`
 
-	// CreatedBy is the Profile ID of the user creating the role.
-	CreatedBy string `json:"createdBy,omitempty" firestore:"createdBy"`
-
-	// Organization ID for which the role is created and used
-	OrganizationID string `json:"organizationID,omitempty" firestore:"organizationID"`
-
 	// Active indicates whether the role is operational
 	Active bool `json:"active" firestore:"active"`
+
+	// List of allowed permission scopes for a role
+	Scopes []string `json:"scopes" firestore:"scopes"`
+
+	// CreatedBy is the Profile ID of the user creating the role.
+	CreatedBy string `json:"createdBy,omitempty" firestore:"createdBy"`
 
 	// Created is the timestamp indicating when the role was created
 	Created time.Time `json:"created" firestore:"created"`
 
-	// List of allowed permission scopes for a role
-	Scopes []string `json:"permissions" firestore:"permissions"`
+	// UpdatedBy is the Profile ID of the user who last updated the role.
+	UpdatedBy string `json:"updatedBy,omitempty" firestore:"updatedBy"`
+
+	// Updated is the timestamp indicating when the role was updated
+	Updated time.Time `json:"updated" firestore:"updated"`
 }
 
 // Permissions returns all role permissions
