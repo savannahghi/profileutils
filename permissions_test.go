@@ -122,7 +122,7 @@ func TestRole_Permissions(t *testing.T) {
 			args: args{
 				ctx: ctx,
 				role: profileutils.Role{
-					AllowedPermissions: []string{"role.edit"},
+					Scopes: []string{"role.edit"},
 				},
 			},
 			want:    []profileutils.Permission{profileutils.CanEditRole},
@@ -133,7 +133,7 @@ func TestRole_Permissions(t *testing.T) {
 			args: args{
 				ctx: ctx,
 				role: profileutils.Role{
-					AllowedPermissions: []string{"role.submit.unknown"},
+					Scopes: []string{"role.submit.unknown"},
 				},
 			},
 			want:    nil,

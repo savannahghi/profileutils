@@ -3,6 +3,8 @@ package profileutils
 import (
 	"context"
 	"fmt"
+	"io"
+	"strconv"
 	"time"
 )
 
@@ -25,6 +27,45 @@ const (
 
 // PermissionGroup used to group permissions that have related resources
 type PermissionGroup string
+
+// IsValid ..
+func (p PermissionGroup) IsValid() bool {
+	switch p {
+	case PermissionGroupRole,
+		PermissionGroupEmployee,
+		PermissionGroupAgent,
+		PermissionGroupPartner,
+		PermissionGroupKYC,
+		PermissionGroupConsumer,
+		PermissionGroupPatient:
+		return true
+	}
+	return false
+}
+
+//String ...
+func (p PermissionGroup) String() string {
+	return string(p)
+}
+
+// UnmarshalGQL ..
+func (p *PermissionGroup) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*p = PermissionGroup(str)
+	if !p.IsValid() {
+		return fmt.Errorf("%s is not a valid PermissionGroup", str)
+	}
+	return nil
+}
+
+// MarshalGQL ..
+func (p PermissionGroup) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(p.String()))
+}
 
 // role management permissions
 var (
@@ -252,15 +293,15 @@ type Role struct {
 	// Created is the timestamp indicating when the role was created
 	Created time.Time `json:"created" firestore:"created"`
 
-	// List of allowed permissions for a role
-	AllowedPermissions []string `json:"permissions" firestore:"permissions"`
+	// List of allowed permission scopes for a role
+	Scopes []string `json:"permissions" firestore:"permissions"`
 }
 
 // Permissions returns all role permissions
 func (r Role) Permissions(ctx context.Context) ([]Permission, error) {
 	perms := []Permission{}
 
-	for _, scope := range r.AllowedPermissions {
+	for _, scope := range r.Scopes {
 		// Get permission
 		perm, err := GetPermissionByScope(ctx, scope)
 		if err != nil {
@@ -274,7 +315,7 @@ func (r Role) Permissions(ctx context.Context) ([]Permission, error) {
 
 // HasPermission checks if a role has the permission defined
 func (r Role) HasPermission(ctx context.Context, scope string) bool {
-	for _, op := range r.AllowedPermissions {
+	for _, op := range r.Scopes {
 		if op == scope {
 			return true
 		}
