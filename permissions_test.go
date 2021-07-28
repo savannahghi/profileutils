@@ -153,3 +153,32 @@ func TestRole_Permissions(t *testing.T) {
 		})
 	}
 }
+
+func TestPermissionGroup_IsValid(t *testing.T) {
+
+	tests := []struct {
+		name string
+		p    profileutils.PermissionGroup
+		want bool
+	}{
+		{
+			name: "happy case",
+			p:    "Roles",
+			want: true,
+		},
+
+		{
+			name: "happy case",
+			p:    "Vendors",
+			want: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := tt.p.IsValid(); got != tt.want {
+				t.Errorf("PermissionGroup.IsValid() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
