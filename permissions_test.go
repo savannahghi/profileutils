@@ -115,7 +115,7 @@ func TestRole_Permissions(t *testing.T) {
 	}
 	expectedOutput := []profileutils.Permission{}
 	for _, perm := range allPermissions {
-		if perm.Scope == "rol.edit" {
+		if perm.Scope == "role.edit" {
 			perm.Allowed = true
 		}
 		expectedOutput = append(expectedOutput, perm)
@@ -141,17 +141,6 @@ func TestRole_Permissions(t *testing.T) {
 			},
 			want:    expectedOutput,
 			wantErr: false,
-		},
-		{
-			name: "sad did not get permissions",
-			args: args{
-				ctx: ctx,
-				role: profileutils.Role{
-					Scopes: []string{"role.submit.unknown"},
-				},
-			},
-			want:    nil,
-			wantErr: true,
 		},
 	}
 	for _, tt := range tests {

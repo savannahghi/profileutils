@@ -304,7 +304,7 @@ type Role struct {
 	Updated time.Time `json:"updated" firestore:"updated"`
 }
 
-// Permissions returns all role permissions
+// Permissions returns all permissions with role scoped marked as allowed
 func (r Role) Permissions(ctx context.Context) ([]Permission, error) {
 	perms := []Permission{}
 
@@ -314,12 +314,9 @@ func (r Role) Permissions(ctx context.Context) ([]Permission, error) {
 	}
 
 	for _, perm := range allPermissions {
+		// check if this permission is among the role's scopes
+		// and mark is as allowed
 		for _, scope := range r.Scopes {
-			// Get permission
-			perm, err := GetPermissionByScope(ctx, scope)
-			if err != nil {
-				return nil, err
-			}
 			if perm.Scope == scope {
 				perm.Allowed = true
 			}
