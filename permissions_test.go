@@ -107,6 +107,20 @@ func Test_GetPermissionByScope(t *testing.T) {
 
 func TestRole_Permissions(t *testing.T) {
 	ctx := context.Background()
+
+	allPermissions, err := profileutils.AllPermissions(ctx)
+	if err != nil {
+		t.Log("error unable to get all permissions")
+		return
+	}
+	expectedOutput := []profileutils.Permission{}
+	for _, perm := range allPermissions {
+		if perm.Scope == "rol.edit" {
+			perm.Allowed = true
+		}
+		expectedOutput = append(expectedOutput, perm)
+	}
+
 	type args struct {
 		ctx  context.Context
 		role profileutils.Role
@@ -125,7 +139,7 @@ func TestRole_Permissions(t *testing.T) {
 					Scopes: []string{"role.edit"},
 				},
 			},
-			want:    []profileutils.Permission{profileutils.CanEditRole},
+			want:    expectedOutput,
 			wantErr: false,
 		},
 		{
