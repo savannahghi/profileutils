@@ -247,6 +247,7 @@ func AllPermissions(ctx context.Context) ([]Permission, error) {
 		CanViewAgent,
 		CanRegisterAgent,
 		CanSuspendAgent,
+		CanIdentifyAgent,
 		CanUnsuspendAgent,
 
 		// partner management
@@ -299,7 +300,7 @@ type Role struct {
 	// UpdatedBy is the Profile ID of the user who last updated the role.
 	UpdatedBy string `json:"updatedBy,omitempty" firestore:"updatedBy"`
 
-	// Updated is the timestamp indicating when the role was updated
+	// Updated is the timestamp indicating when the role was last updated
 	Updated time.Time `json:"updated" firestore:"updated"`
 }
 
@@ -307,13 +308,23 @@ type Role struct {
 func (r Role) Permissions(ctx context.Context) ([]Permission, error) {
 	perms := []Permission{}
 
-	for _, scope := range r.Scopes {
-		// Get permission
-		perm, err := GetPermissionByScope(ctx, scope)
-		if err != nil {
-			return nil, err
+	allPermissions, err := AllPermissions(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	for _, perm := range allPermissions {
+		for _, scope := range r.Scopes {
+			// Get permission
+			perm, err := GetPermissionByScope(ctx, scope)
+			if err != nil {
+				return nil, err
+			}
+			if perm.Scope == scope {
+				perm.Allowed = true
+			}
 		}
-		perms = append(perms, *perm)
+		perms = append(perms, perm)
 	}
 
 	return perms, nil
@@ -375,7 +386,7 @@ func GetPermissionByScope(ctx context.Context, scope string) (*Permission, error
 	}
 
 	if p == nil {
-		return nil, fmt.Errorf("permission not found")
+		return nil, fmt.Errorf("permission with the scope %v not found", scope)
 	}
 
 	return p, nil
