@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.com/savannahghi/profileutils.svg?branch=main)](https://travis-ci.com/savannahghi/profileutils)
 [![Maintained](https://img.shields.io/badge/Maintained-Actively-informational.svg?style=for-the-badge)](https://shields.io/)
+![Linting and Tests](https://github.com/savannahghi/profileutils/actions/workflows/ci.yml/badge.svg)
+[![Coverage Status](https://coveralls.io/repos/github/savannahghi/profileutils/badge.svg?branch=main)](https://coveralls.io/github/savannahghi/profileutils?branch=main)
 
 # Profile Utils
 

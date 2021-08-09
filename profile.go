@@ -413,9 +413,9 @@ func (u UserProfile) HasPermission(perm PermissionType) bool {
 }
 
 // HasRole checks if user has role
-func (u UserProfile) HasRole(roleId string) bool {
+func (u UserProfile) HasRole(roleID string) bool {
 	for _, role := range u.Roles {
-		if role == roleId {
+		if role == roleID {
 			return true
 		}
 	}
