@@ -166,7 +166,7 @@ func TestUserProfile_HasPermission(t *testing.T) {
 
 func TestUserProfile_HasRole(t *testing.T) {
 	type args struct {
-		roleId string
+		roleID string
 		user   profileutils.UserProfile
 	}
 	tests := []struct {
@@ -180,7 +180,7 @@ func TestUserProfile_HasRole(t *testing.T) {
 				user: profileutils.UserProfile{
 					Roles: []string{"sdkdasjhghjsd", "1212bhjbv"},
 				},
-				roleId: "sdkdasjhghjsd",
+				roleID: "sdkdasjhghjsd",
 			},
 			want: true,
 		},
@@ -190,14 +190,14 @@ func TestUserProfile_HasRole(t *testing.T) {
 				user: profileutils.UserProfile{
 					Roles: []string{"sdkdasjhghjsd", "1212bhjbv"},
 				},
-				roleId: "123",
+				roleID: "123",
 			},
 			want: false,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := tt.args.user.HasRole(tt.args.roleId); got != tt.want {
+			if got := tt.args.user.HasRole(tt.args.roleID); got != tt.want {
 				t.Errorf("UserProfile.HasRole() = %v, want %v", got, tt.want)
 			}
 		})
