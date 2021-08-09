@@ -27,7 +27,7 @@ func (u Upload) IsNode() {}
 
 // SetID marks upload as a relay node
 func (u Upload) SetID(id string) {
-	u.ID = id
+	u.ID = id //lint:ignore SA4005  ineffective assignment
 }
 
 // GetID marks upload as a relay node
