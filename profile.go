@@ -490,6 +490,8 @@ type AuthCredentialResponse struct {
 	IsAnonymous   bool    `json:"is_anonymous"`
 	CanExperiment bool    `json:"can_experiment"`
 	ChangePIN     bool    `json:"change_pin"`
+	// Scopes are the permissions that a user has
+	Scopes []string `json:"scopes"`
 }
 
 // Customer used to create a customer request payload
