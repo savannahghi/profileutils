@@ -384,6 +384,9 @@ type UserProfile struct {
 
 	// this is the version of the app that the user is currently using : PRO
 	PROAppVersion *string `json:"proAppVersion,omitempty" firestore:"proAppVersion"`
+
+	//Assistant indicates the user assistant
+	Assistant Assistant `json:"assistant,omitempty" firestore:"assistant"`
 }
 
 // UserInfo is a collection of standard profile information for a user.
@@ -629,3 +632,13 @@ func GetLoggedInUser(ctx context.Context) (*UserInfo, error) {
 		PhotoURL:    user.PhotoURL,
 	}, nil
 }
+
+//Assistant represents the user Assistant(BOWI/BEV)
+type Assistant string
+
+const (
+	//FemaleAssistant assists the user to navigate the app
+	FemaleAssistant Assistant = "BEV"
+	//MaleAssistant assists the user to navigate the app
+	MaleAssistant Assistant = "BOWI"
+)
