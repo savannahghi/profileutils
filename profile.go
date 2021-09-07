@@ -637,8 +637,8 @@ func GetLoggedInUser(ctx context.Context) (*UserInfo, error) {
 type Assistant string
 
 const (
-	//FemaleAssistant assists the user to navigate the app
+	//FemaleAssistant assists the user to navigate the CONSUMER app
 	FemaleAssistant Assistant = "BEV"
-	//MaleAssistant assists the user to navigate the app
+	//MaleAssistant assists the user to navigate the CONSUMER app
 	MaleAssistant Assistant = "BOWI"
 )
