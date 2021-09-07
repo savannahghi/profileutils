@@ -387,6 +387,9 @@ type UserProfile struct {
 
 	//Assistant indicates the user assistant
 	Assistant Assistant `json:"assistant,omitempty" firestore:"assistant"`
+
+	// UserLink represents each users unique link combining both primary email and phone
+	UserLink *string `json:"userlink,omitempty" firestore:"userlink"`
 }
 
 // UserInfo is a collection of standard profile information for a user.
@@ -398,8 +401,9 @@ type UserInfo struct {
 	// In the ProviderUserInfo[] ProviderID can be a short domain name (e.g. google.com),
 	// or the identity of an OpenID identity provider.
 	// In UserRecord.UserInfo it will return the constant string "firebase".
-	ProviderID string `json:"providerId,omitempty"`
-	UID        string `json:"rawId,omitempty"`
+	ProviderID string  `json:"providerId,omitempty"`
+	UID        string  `json:"rawId,omitempty"`
+	UserLink   *string `json:"userlink,omitempty"`
 }
 
 // IsEntity marks a profile as a GraphQL entity
