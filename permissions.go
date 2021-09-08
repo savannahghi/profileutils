@@ -20,6 +20,8 @@ const (
 
 	PermissionGroupKYC PermissionGroup = "KYC"
 
+	PermissionGroupCovers PermissionGroup = "Covers"
+
 	PermissionGroupConsumer PermissionGroup = "Consumers"
 
 	PermissionGroupPatient PermissionGroup = "Patients"
@@ -37,6 +39,7 @@ func (p PermissionGroup) IsValid() bool {
 		PermissionGroupPartner,
 		PermissionGroupKYC,
 		PermissionGroupConsumer,
+		PermissionGroupCovers,
 		PermissionGroupPatient:
 		return true
 	}
@@ -192,6 +195,21 @@ var (
 	}
 )
 
+// cover management permissions
+var (
+	CanViewCovers = Permission{
+		Group:       PermissionGroupCovers,
+		Scope:       "covers.view",
+		Description: "Can view covers",
+	}
+
+	CanSellCovers = Permission{
+		Group:       PermissionGroupCovers,
+		Scope:       "covers.sell",
+		Description: "Can sell covers",
+	}
+)
+
 // patient management permissions
 var (
 	CanViewPatient = Permission{
@@ -257,6 +275,10 @@ func AllPermissions(ctx context.Context) ([]Permission, error) {
 		// KYC management
 		CanProcessKYC,
 		CanViewKYC,
+
+		//covers management
+		CanViewCovers,
+		CanSellCovers,
 
 		// consumer management
 		CanViewConsumers,
