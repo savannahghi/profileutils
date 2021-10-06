@@ -36,6 +36,16 @@ jobs:
           go get github.com/fzipp/gocyclo
           go get github.com/stretchr/testify/assert@v1.7.0
           go get github.com/ory/go-acc
+          go get golang.org/x/oauth2/internal
+          go get google.golang.org/api/transport/http
+          go get google.golang.org/grpc
+          go get google.golang.org/grpc/internal/transport
+          go get cloud.google.com/go/monitoring/apiv3/v2
+          go get cloud.google.com/go/trace/apiv2
+          go get cloud.google.com/go/errorreporting
+          go get cloud.google.com/go/profiler
+          go get cloud.google.com/go/container/apiv1 
+
       - name: Run lint and test
         run: |
           staticcheck ./...
