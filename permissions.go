@@ -73,25 +73,25 @@ func (p PermissionGroup) MarshalGQL(w io.Writer) {
 // role management permissions
 var (
 	CanViewRole = Permission{
-		Group:       PermissionGroupRole,
+		Group:       PermissionGroupRole.String(),
 		Scope:       "role.view",
 		Description: "Can view role",
 	}
 
 	CanCreateRole = Permission{
-		Group:       PermissionGroupRole,
+		Group:       PermissionGroupRole.String(),
 		Scope:       "role.create",
 		Description: "Can create role",
 	}
 
 	CanEditRole = Permission{
-		Group:       PermissionGroupRole,
+		Group:       PermissionGroupRole.String(),
 		Scope:       "role.edit",
 		Description: "Can edit role",
 	}
 
 	CanAssignRole = Permission{
-		Group:       PermissionGroupRole,
+		Group:       PermissionGroupRole.String(),
 		Scope:       "role.assign",
 		Description: "Can assign a role",
 	}
@@ -100,19 +100,19 @@ var (
 // employee management permissions
 var (
 	CanViewEmployee = Permission{
-		Group:       PermissionGroupEmployee,
+		Group:       PermissionGroupEmployee.String(),
 		Scope:       "employee.view",
 		Description: "Can create employee",
 	}
 
 	CanCreateEmployee = Permission{
-		Group:       PermissionGroupEmployee,
+		Group:       PermissionGroupEmployee.String(),
 		Scope:       "employee.create",
 		Description: "Can create employee",
 	}
 
 	CanRemoveEmployee = Permission{
-		Group:       PermissionGroupEmployee,
+		Group:       PermissionGroupEmployee.String(),
 		Scope:       "employee.remove",
 		Description: "Can remove employee",
 	}
@@ -121,31 +121,31 @@ var (
 // agent management permissions
 var (
 	CanViewAgent = Permission{
-		Group:       PermissionGroupAgent,
+		Group:       PermissionGroupAgent.String(),
 		Scope:       "agent.view",
 		Description: "Can view agents",
 	}
 
 	CanRegisterAgent = Permission{
-		Group:       PermissionGroupAgent,
+		Group:       PermissionGroupAgent.String(),
 		Scope:       "agent.register",
 		Description: "Can register agent",
 	}
 
 	CanIdentifyAgent = Permission{
-		Group:       PermissionGroupAgent,
+		Group:       PermissionGroupAgent.String(),
 		Scope:       "agent.identify",
 		Description: "Can identify agent",
 	}
 
 	CanSuspendAgent = Permission{
-		Group:       PermissionGroupAgent,
+		Group:       PermissionGroupAgent.String(),
 		Scope:       "agent.suspend",
 		Description: "Can suspend agent",
 	}
 
 	CanUnsuspendAgent = Permission{
-		Group:       PermissionGroupAgent,
+		Group:       PermissionGroupAgent.String(),
 		Scope:       "agent.unsuspend",
 		Description: "Can unsuspend agent",
 	}
@@ -154,13 +154,13 @@ var (
 // partner management permissions
 var (
 	CanViewPartner = Permission{
-		Group:       PermissionGroupPartner,
+		Group:       PermissionGroupPartner.String(),
 		Scope:       "partner.view",
 		Description: "Can view partners",
 	}
 
 	CanCreatePartner = Permission{
-		Group:       PermissionGroupPartner,
+		Group:       PermissionGroupPartner.String(),
 		Scope:       "partner.create",
 		Description: "Can create partner",
 	}
@@ -169,12 +169,12 @@ var (
 // kyc management permissions
 var (
 	CanProcessKYC = Permission{
-		Group:       PermissionGroupKYC,
+		Group:       PermissionGroupKYC.String(),
 		Scope:       "kyc.process",
 		Description: "Can process KYC",
 	}
 	CanViewKYC = Permission{
-		Group:       PermissionGroupKYC,
+		Group:       PermissionGroupKYC.String(),
 		Scope:       "kyc.view",
 		Description: "Can process KYC",
 	}
@@ -183,13 +183,13 @@ var (
 // consumer management permissions
 var (
 	CanViewConsumers = Permission{
-		Group:       PermissionGroupConsumer,
+		Group:       PermissionGroupConsumer.String(),
 		Scope:       "consumer.view",
 		Description: "Can view consumers",
 	}
 
 	CanCreateConsumer = Permission{
-		Group:       PermissionGroupConsumer,
+		Group:       PermissionGroupConsumer.String(),
 		Scope:       "consumer.create",
 		Description: "Can add consumer",
 	}
@@ -198,13 +198,13 @@ var (
 // cover management permissions
 var (
 	CanViewCovers = Permission{
-		Group:       PermissionGroupCovers,
+		Group:       PermissionGroupCovers.String(),
 		Scope:       "covers.view",
 		Description: "Can view covers",
 	}
 
 	CanSellCovers = Permission{
-		Group:       PermissionGroupCovers,
+		Group:       PermissionGroupCovers.String(),
 		Scope:       "covers.sell",
 		Description: "Can sell covers",
 	}
@@ -213,19 +213,19 @@ var (
 // patient management permissions
 var (
 	CanViewPatient = Permission{
-		Group:       PermissionGroupPatient,
+		Group:       PermissionGroupPatient.String(),
 		Scope:       "patient.view",
 		Description: "Can view patient",
 	}
 
 	CanCreatePatient = Permission{
-		Group:       PermissionGroupPatient,
+		Group:       PermissionGroupPatient.String(),
 		Scope:       "patient.create",
 		Description: "Can add patient",
 	}
 
 	CanIdentifyPatient = Permission{
-		Group:       PermissionGroupPatient,
+		Group:       PermissionGroupPatient.String(),
 		Scope:       "patient.identify",
 		Description: "Can identify patient",
 	}
@@ -242,7 +242,7 @@ type Permission struct {
 	// Description is used to keep details for a particular permission
 	Description string `json:"description"`
 
-	Group PermissionGroup `json:"group"`
+	Group string `json:"group"`
 
 	Allowed bool `json:"allowed"`
 }
