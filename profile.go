@@ -390,6 +390,16 @@ type UserProfile struct {
 
 	// ReferralLink is the user's app download referral link
 	ReferralLink *string `json:"referral_link,omitempty" firestore:"referralLink"`
+
+	// FeaturesAccess gives us information on the features that a user profile can or can't access
+	FeaturesAccess []*Feature `json:"features,omitempty" firestore:"featureAccess"`
+}
+
+// Feature defines the output of a feature as defined by the datastore.
+type Feature struct {
+	ID            string `json:"id"`
+	Name          string `json:"name"`
+	DefaultStatus bool   `json:"defaultStatus"`
 }
 
 // UserInfo is a collection of standard profile information for a user.
