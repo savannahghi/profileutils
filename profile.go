@@ -397,9 +397,13 @@ type UserProfile struct {
 
 // Feature defines the output of a feature as defined by the datastore.
 type Feature struct {
-	ID            string `json:"id"`
-	Name          string `json:"name"`
-	DefaultStatus bool   `json:"defaultStatus"`
+	ID            string    `json:"id"`
+	Name          string    `json:"name"`
+	DefaultStatus bool      `json:"defaultStatus"`
+	CreatedAt     time.Time `json:"createdAt"`
+	// Keeps track of the timestamps a feature is updated
+	// ie default status transitioned, added to a user or payer
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // UserInfo is a collection of standard profile information for a user.
