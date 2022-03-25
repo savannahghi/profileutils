@@ -264,6 +264,7 @@ type Cover struct {
 	EffectivePolicyNumber string    `json:"effective_policy_number,omitempty" firestore:"effectivePolicyNumber"`
 	ValidFrom             time.Time `json:"valid_from,omitempty" firestore:"validFrom"`
 	ValidTo               time.Time `json:"valid_to,omitempty" firestore:"validTo"`
+	HasHistoricalClaims   bool      `json:"hasHistoricalClaims" firestore:"hasHistoricalClaims"`
 }
 
 // IsEntity marks this struct as a GraphQL entity
