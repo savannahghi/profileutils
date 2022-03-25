@@ -11,7 +11,7 @@ jobs:
   lint_and_test:
     strategy:
       matrix:
-        go-version: [1.16.x]
+        go-version: [1.17.x]
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     timeout-minutes: 80
@@ -45,6 +45,7 @@ jobs:
           go get cloud.google.com/go/errorreporting
           go get cloud.google.com/go/profiler
           go get cloud.google.com/go/container/apiv1 
+          go get -u firebase.google.com/go/storage@v3.13.0+incompatible
 
       - name: Run lint and test
         run: |
